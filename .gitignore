@@ -1,33 +1,6 @@
 # Object files
-*.o
-*.ko
-*.obj
-*.elf
+*.mexw64
+*.mexw32
+*.mex64
+*.mex32
 
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-*.su
