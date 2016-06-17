@@ -1,6 +1,6 @@
 # Sunny-d
 
-Sunny-d provides a super convenient Matlab interface to the awesome SUNDIALS ODE solvers. These can be 100x faster than Matlab's solvers, particularly for stiff problems.
+Sunny-d provides a super convenient Matlab interface to the [SUNDIALS](http://computation.llnl.gov/projects/sundials-suite-nonlinear-differential-algebraic-equation-solvers) ODE solvers. These can be 100x faster than Matlab's solvers, particularly for stiff problems.
 
 ## Usage
 
@@ -22,7 +22,7 @@ Further, you can seamlessly incorporate an update function written in C
 
 		[t, Y] = sunnyd('dydt.c', T, x0, theta)
 
-where `dydt.c` file looks something like:
+where `dydt.c` looks something like:
 
 	#include "sunnyd.h"
 	
