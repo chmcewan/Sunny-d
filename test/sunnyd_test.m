@@ -9,16 +9,22 @@ function [] = sunnyd_test()
     
     clf;
     subplot(3, 1, 1);
-    [t,Y] = ode15s(@dx, T, x0, [], [a, b]);
-    render(t,Y, 'ode15s');
+    f1 = @() ode15s(@dx, T, x0, [], [a, b]);
+    [t,Y] = f1();
+    t1 = timeit(f1);
+    render(t,Y, sprintf('ode15s (%.6fs)', t1));
     
     subplot(3, 1, 2);
-    [t,Y] = sunnyd(@dx, T, x0, [a, b]);
-    render(t,Y, 'sunnyd (Matlab)');
+    f2 = @() sunnyd(@dx, T, x0, [a, b]);
+    [t,Y] = f2();
+    t2 = timeit(f2);
+    render(t,Y, sprintf('sunnyd/Matlab (%.1fx faster)', t1/t2));
 
     subplot(3, 1, 3);
-    [t,Y] = sunnyd('sunnyd_test_c.c', T, x0, [a, b]);
-    render(t,Y, 'sunnyd (C)');    
+    f3 = @() sunnyd('sunnyd_test_c.c', T, x0, [a, b]);
+    [t,Y] = f3();
+    t3 = timeit(f3);
+    render(t,Y, sprintf('sunnyd/C (%.1fx faster)', t1/t3));    
     
 end
 

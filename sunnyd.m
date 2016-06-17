@@ -22,10 +22,12 @@ end
 
 function t = stat(cfile, mfile)
     t = 1;
-    if exist(mfile, 'file') == 2
+    if exist(mfile, 'file') == 3
         sc = dir(cfile);
         sm = dir(mfile);
-        if sc.datenum < sm.datenum
+        dc = datevec(sc.date, 'dd-mmm-yyyy HH:MM:ss');
+        dm = datevec(sm.date, 'dd-mmm-yyyy HH:MM:ss');
+        if etime(dc,dm) < 0
             t = 0;
         end
     end
@@ -40,15 +42,25 @@ function [f] = recompile(cfile)
         bits = 64; 
     end
 
+    w = '';
+    if strfind(arch, 'win')
+        w = 'w';
+    end
+    
     if nargin == 0
         cfile = sprintf('%s/sunnydc.c', path);
     end
 
     [base,name,ext] = fileparts(cfile);
-    %if ~stat(cfile, sprintf('%s/%s.mex%d', base, name, bits)) && ~stat(cfile, sprintf('%s/%s.mexw%d', base, name, bits))
-    %    warning('Compiling...')
+    cwd = pwd();
+    if strcmp(base,'')
+        base = '.';
+    end
+    if stat(cfile, sprintf('%s/%s.mex%s%d', base, name, w, bits))
+        chdir(base);
         string = sprintf('mex -I%s/include/Sundials-2.5.0 -I%s/include -DLL %s "%s/lib/%s/sundials_cvode.lib" "%s/lib/%s/sundials_nvecserial.lib"',path,path,cfile,path,arch,path,arch);
         eval(string);
-    %end
+        chdir(cwd);
+    end
     f = str2func(name);
 end
